@@ -11,7 +11,7 @@ class Ruta extends Model
 {
     use HasFactory;
     
-    protected $filalable = ['nombre_ruta', 'creado_por'];
+    protected $fillable = ['nombre_ruta', 'creado_por'];
 
     public function puntos(): BelongsToMany
     {

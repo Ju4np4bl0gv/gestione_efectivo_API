@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Guarda extends Model
 {
     use HasFactory;
-    protected $filalable = ['nombre', 'documento'];
+    protected $fillable = ['nombre', 'documento'];
 
     public function programaciones():BelongsToMany
     {

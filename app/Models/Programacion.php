@@ -12,7 +12,7 @@ class Programacion extends Model
 {
     use HasFactory;
 
-    protected $filalable=['fecha_i','fecha_f','estado','observacion'];
+    protected $fillable=['fecha_i','fecha_f','estado','observacion'];
 
     public function rutas(): BelongsTo
     {

@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\ApiResponse;
+use App\Models\Punto;
 use App\Models\Ruta;
+use App\Models\Vehiculos;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 
 class RutaController extends Controller
@@ -12,7 +16,8 @@ class RutaController extends Controller
      */
     public function index()
     {
-        //
+
+        return Ruta::all();
     }
 
     /**
@@ -20,7 +25,23 @@ class RutaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        try {
+
+            $request->validate([
+                'nombre_ruta' => 'required|unique:rutas',
+                'creado_por'  => 'required',
+                'punto_id'  => 'required|exists:puntos,id',
+            ]);
+
+            $ruta     =  Ruta::create($request->all());
+            $ruta->puntos()->attach($request->punto_id);
+
+            return ApiResponse::success('Ruta creada', 200, $ruta);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return ApiResponse::error('Ocurrio un error', 404);
+        }
     }
 
     /**
@@ -28,6 +49,7 @@ class RutaController extends Controller
      */
     public function show(Ruta $ruta)
     {
+
         //
     }
 

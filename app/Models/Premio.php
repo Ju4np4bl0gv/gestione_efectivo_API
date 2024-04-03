@@ -10,7 +10,7 @@ class Premio extends Model
 {
     use HasFactory;
 
-    protected $filalable = ['valor', 'archivo','formulario', 'serie'];
+    protected $fillable = ['valor', 'archivo','formulario', 'serie'];
 
     public function cuadres():BelongsTo
     {

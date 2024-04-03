@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('punto_id');
             $table->unsignedBigInteger('ruta_id');
-            $table->char('estado', 1);
+            $table->char('estado', 1)->nullable(true);
 
             $table->foreign('punto_id')->references('id')->on('puntos')->onDelete('cascade');
             $table->foreign('ruta_id')->references('id')->on('rutas')->onDelete('cascade');

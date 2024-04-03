@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Entrega extends Model
 {
     use HasFactory;
-    protected $filalable = ['tula', 'candado', 'cantidad_paquetes', 'asesora_entrega','guarda_Recibe'];
+    protected $fillable = ['tula', 'candado', 'cantidad_paquetes', 'asesora_entrega','guarda_Recibe'];
 
 public function cuadres():HasMany
 {

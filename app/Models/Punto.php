@@ -10,7 +10,8 @@ class Punto extends Model
 {
     use HasFactory;
 
-    protected $filalable=['cod_punto','nombre'];
+    protected $fillable=['cod_punto','nombre'];
+    //protected $guarded=[];
 
     public function rutas(): BelongsToMany
     {

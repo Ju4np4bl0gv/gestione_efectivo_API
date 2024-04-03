@@ -10,7 +10,7 @@ class Imagenfrm extends Model
 {
     use HasFactory;
 
-    protected $filalable = ['imagen'];
+    protected $fillable = ['imagen'];
 
     public function premios():BelongsTo
     {
