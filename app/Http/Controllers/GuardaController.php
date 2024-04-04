@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\ApiResponse;
 use App\Models\Guarda;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,19 @@ class GuardaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'nombre' => 'required',
+                'documento' => 'required|unique:guardas'
+            ]);
+
+            $guarda = Guarda::create($request->all());
+           return  ApiResponse::success('registro agregado', 201, $guarda);
+        } catch (\Throwable $th) {
+            return ApiResponse::error('Ocurrio un error', 401);
+
+        }
+
     }
 
     /**

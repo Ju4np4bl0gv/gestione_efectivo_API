@@ -10,7 +10,7 @@ class Vehiculos extends Model
 {
     use HasFactory;
 
-    protected $filalable=['placa','marca', 'creado_por'];
+    protected $fillable=['placa','marca', 'creado_por'];
 
     public function programaciones(): HasMany
     {

@@ -48,10 +48,9 @@ class PuntoController extends Controller
     public function show(Punto $punto)
     {
         try {
-           return $punto;
-           ApiResponse::success('Registro agregado', 200, $punto);
+           return ApiResponse::success('Registro agregado', 200, $punto);
         } catch (ModelNotFoundException $e) {
-            ApiResponse::error('Sucedio un error', 404);
+           return  ApiResponse::error('Sucedio un error', 404);
 
         }
     }

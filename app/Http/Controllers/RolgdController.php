@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Responses\ApiResponse;
 use App\Models\Rolgd;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,17 @@ class RolgdController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'creado_por' => 'required',
+                'nombre_rol' => 'required|unique:rolgds'
+            ]);
+            $rolgd = Rolgd::create($request->all());
+            return ApiResponse::success('registro agregado', 201, $rolgd);
+        } catch (\Throwable $th) {
+            return ApiResponse::error('Ocurrio un error', 401);
+
+        }
     }
 
     /**
