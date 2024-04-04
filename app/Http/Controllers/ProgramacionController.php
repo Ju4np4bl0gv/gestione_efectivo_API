@@ -30,14 +30,27 @@ class ProgramacionController extends Controller
                 'fecha_f'       => 'required',
                 'vehiculo_id'   => 'required|exists:vehiculos,id',
                 'ruta_id'       => 'required|exists:rutas,id',
-                "guarda_id"     => 'required' 
+                "guarda_rolgd"     => 'required' 
     
             ]);
 
-            return     $guarda =Guarda::find($request -> guarda_id);
+                $programaciones = Programacion::create(
+                    ["fecha_i"=>$request->fecha_i,
+                    "fecha_f"=>$request->fecha_f,
+                    "vehiculo_id"=>$request->vehiculo_id,
+                    "ruta_id"=>$request->ruta_id
+            ]);
+
+           $gdr=$request->guarda_rolgd;
+            foreach ($gdr as $registro) {
+                $guardaId = $registro['guarda_id'];
+                $rolgdId = $registro['rolgd_id'];
+                $programaciones->guardas()->attach($guardaId, ['rolgd_id' =>$rolgdId]);
+            } 
+            //return     $guarda =Guarda::find($request -> guarda_id);
+
 
     
-            $programaciones = Programacion::create($request->all());
            return ApiResponse::success("agregado exitosamente", 201,  $programaciones);
         } catch (\Throwable $th) {
             return ApiResponse::error("Sucedio un error", 401);

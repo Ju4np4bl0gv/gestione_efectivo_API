@@ -14,10 +14,10 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-//Route::apiResource('rutas', RutaController::class);
-//Route::apiResource('puntos', PuntoController::class);
-//route::apiResource('guardas', GuardaController::class);
-//route::apiResource('rolgds', RolgdController::class);
-//route::apiResource('vehiculos', VehiculosController::class);
+Route::apiResource('rutas', RutaController::class);
+Route::apiResource('puntos', PuntoController::class);
+route::apiResource('guardas', GuardaController::class);
+route::apiResource('rolgds', RolgdController::class);
+route::apiResource('vehiculos', VehiculosController::class);
 route::apiResource('programacions', ProgramacionController::class);
 
