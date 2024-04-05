@@ -26,7 +26,7 @@ class Programacion extends Model
 
     public function guardas():BelongsToMany
     {
-        return $this->belongsToMany(Guarda::class);
+        return $this->belongsToMany(Guarda::class)->withTimestamps();
     }
 
     public function entregas():HasMany

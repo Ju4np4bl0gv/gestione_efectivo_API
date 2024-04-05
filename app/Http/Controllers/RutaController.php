@@ -31,11 +31,20 @@ class RutaController extends Controller
             $request->validate([
                 'nombre_ruta' => 'required|unique:rutas',
                 'creado_por'  => 'required',
-                'punto_id'  => 'required|exists:puntos,id',
+                'punto_id'  => 'required'
             ]);
 
+            //|exists:puntos,id
+
+
+
+
             $ruta     =  Ruta::create($request->all());
-            $ruta->puntos()->attach($request->punto_id);
+
+            foreach ($request->punto_id as $key => $value) {
+                $ruta->puntos()->attach($value);
+            }
+            
 
             return ApiResponse::success('Ruta creada', 200, $ruta);
         } catch (\Throwable $th) {

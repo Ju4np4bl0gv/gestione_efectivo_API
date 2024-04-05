@@ -24,11 +24,15 @@ class PuntoController extends Controller
      */
     public function store(Request $request)
     {
+
+
+
         try {
             $request->validate([
                 'cod_punto' => 'required|unique:puntos',
                 'nombre'    => 'required|unique:puntos'
             ]);
+
 
            $punto =  Punto::create($request->all());
           /*  $punto = new Punto;

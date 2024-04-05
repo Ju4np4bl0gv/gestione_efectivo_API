@@ -47,10 +47,6 @@ class ProgramacionController extends Controller
                 $rolgdId = $registro['rolgd_id'];
                 $programaciones->guardas()->attach($guardaId, ['rolgd_id' =>$rolgdId]);
             } 
-            //return     $guarda =Guarda::find($request -> guarda_id);
-
-
-    
            return ApiResponse::success("agregado exitosamente", 201,  $programaciones);
         } catch (\Throwable $th) {
             return ApiResponse::error("Sucedio un error", 401);

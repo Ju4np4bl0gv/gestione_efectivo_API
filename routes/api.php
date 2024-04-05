@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\GuardaController;
 use App\Http\Controllers\ProgramacionController;
 use App\Http\Controllers\PuntoController;
@@ -16,8 +17,18 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('rutas', RutaController::class);
 Route::apiResource('puntos', PuntoController::class);
-route::apiResource('guardas', GuardaController::class);
-route::apiResource('rolgds', RolgdController::class);
-route::apiResource('vehiculos', VehiculosController::class);
-route::apiResource('programacions', ProgramacionController::class);
+Route::apiResource('guardas', GuardaController::class);
+Route::apiResource('rolgds', RolgdController::class);
+Route::apiResource('vehiculos', VehiculosController::class);
+Route::apiResource('programacions', ProgramacionController::class);
 
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login');
+     Route::post('registrar', 'registrar');
+
+});
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('registrar', [AuthController::class, 'registrar']);
+    Route::get('user-profile', [AuthController::class, 'userProfile']);
+});
