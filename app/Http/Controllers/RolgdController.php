@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiResponse;
 use App\Models\Rolgd;
+use Exception;
 use Illuminate\Http\Request;
 
 class RolgdController extends Controller
@@ -28,8 +29,8 @@ class RolgdController extends Controller
             ]);
             $rolgd = Rolgd::create($request->all());
             return ApiResponse::success('registro agregado', 201, $rolgd);
-        } catch (\Throwable $th) {
-            return ApiResponse::error('Ocurrio un error', 401);
+        } catch (Exception $e) {
+            return ApiResponse::error($e->getMessage(), 422);
 
         }
     }

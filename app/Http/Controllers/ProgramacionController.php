@@ -6,6 +6,7 @@ use App\Http\Responses\ApiResponse;
 use App\Models\Guarda;
 use App\Models\guarda_programacion;
 use App\Models\Programacion;
+use Exception;
 use Illuminate\Http\Request;
 
 class ProgramacionController extends Controller
@@ -26,31 +27,32 @@ class ProgramacionController extends Controller
 
         try {
             $request->validate([
-                'fecha_i'       => 'required',
-                'fecha_f'       => 'required',
-                'vehiculo_id'   => 'required|exists:vehiculos,id',
-                'ruta_id'       => 'required|exists:rutas,id',
-                "guarda_rolgd"     => 'required' 
-    
+                'fecha_i' => 'required',
+                'fecha_f' => 'required',
+                'vehiculo_id' => 'required|exists:vehiculos,id',
+                'ruta_id' => 'required|exists:rutas,id',
+                "guarda_rolgd" => 'required'
+
             ]);
 
-                $programaciones = Programacion::create(
-                    ["fecha_i"=>$request->fecha_i,
-                    "fecha_f"=>$request->fecha_f,
-                    "vehiculo_id"=>$request->vehiculo_id,
-                    "ruta_id"=>$request->ruta_id
-            ]);
+            $programaciones = Programacion::create(
+                [
+                    "fecha_i" => $request->fecha_i,
+                    "fecha_f" => $request->fecha_f,
+                    "vehiculo_id" => $request->vehiculo_id,
+                    "ruta_id" => $request->ruta_id
+                ]
+            );
 
-           $gdr=$request->guarda_rolgd;
+            $gdr = $request->guarda_rolgd;
             foreach ($gdr as $registro) {
                 $guardaId = $registro['guarda_id'];
                 $rolgdId = $registro['rolgd_id'];
-                $programaciones->guardas()->attach($guardaId, ['rolgd_id' =>$rolgdId]);
-            } 
-           return ApiResponse::success("agregado exitosamente", 201,  $programaciones);
-        } catch (\Throwable $th) {
-            return ApiResponse::error("Sucedio un error", 401);
-
+                $programaciones->guardas()->attach($guardaId, ['rolgd_id' => $rolgdId]);
+            }
+            return ApiResponse::success("agregado exitosamente", 201, $programaciones);
+        } catch (Exception $e) {
+            return ApiResponse::error($e->getMessage(), 401);
         }
 
     }
@@ -60,7 +62,11 @@ class ProgramacionController extends Controller
      */
     public function show(Programacion $programacion)
     {
-        //
+        try {
+            return ApiResponse::success("Datos", 200, $programacion);
+        } catch (Exception $e) {
+            return ApiResponse::error($e->getMessage(), 401);
+        }
     }
 
     /**
@@ -76,6 +82,10 @@ class ProgramacionController extends Controller
      */
     public function destroy(Programacion $programacion)
     {
-        //
-    }
+        try {
+            $programacion->delete();
+            return ApiResponse::success("Eliminado", 200);
+        } catch (Exception $e) {
+            return ApiResponse::error($e->getMessage(), 401);
+        }    }
 }

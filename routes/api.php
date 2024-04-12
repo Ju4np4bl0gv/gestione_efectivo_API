@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\CuadreController;
 use App\Http\Controllers\GuardaController;
 use App\Http\Controllers\ProgramacionController;
 use App\Http\Controllers\PuntoController;
@@ -21,6 +22,8 @@ Route::apiResource('guardas', GuardaController::class);
 Route::apiResource('rolgds', RolgdController::class);
 Route::apiResource('vehiculos', VehiculosController::class);
 Route::apiResource('programacions', ProgramacionController::class);
+Route::apiResource('cuadres', CuadreController::class);
+
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');

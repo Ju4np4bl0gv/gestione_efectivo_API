@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiResponse;
 use App\Models\Vehiculos;
+use Exception;
 use Illuminate\Http\Request;
 
 class VehiculosController extends Controller
@@ -23,8 +24,8 @@ class VehiculosController extends Controller
     {
         try {
             $request->validate([
-                'marca'      => 'required',
-                'placa'      => 'required|unique:vehiculos',
+                'marca' => 'required',
+                'placa' => 'required|unique:vehiculos',
                 'creado_por' => 'required',
             ]);
 
@@ -32,8 +33,8 @@ class VehiculosController extends Controller
             $vehiculo = Vehiculos::create($request->all());
 
             return ApiResponse::success('registro agregado', 201, $vehiculo);
-        } catch (\Throwable $th) {
-            return ApiResponse::error('Ocurrio un error', 401);
+        } catch (Exception $e) {
+            return ApiResponse::error($e->getMessage(), 422);
 
         }
     }

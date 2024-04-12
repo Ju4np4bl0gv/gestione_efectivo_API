@@ -6,7 +6,9 @@ use App\Http\Responses\ApiResponse;
 use App\Models\Punto;
 use App\Models\Ruta;
 use App\Models\Vehiculos;
+use Exception;
 use GuzzleHttp\Promise\Create;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class RutaController extends Controller
@@ -30,26 +32,24 @@ class RutaController extends Controller
 
             $request->validate([
                 'nombre_ruta' => 'required|unique:rutas',
-                'creado_por'  => 'required',
-                'punto_id'  => 'required'
+                'creado_por' => 'required',
+                'punto_id' => 'required|exists:puntos,id'
             ]);
 
             //|exists:puntos,id
 
 
-
-
-            $ruta     =  Ruta::create($request->all());
+            $ruta = Ruta::create($request->all());
 
             foreach ($request->punto_id as $key => $value) {
                 $ruta->puntos()->attach($value);
             }
-            
+
 
             return ApiResponse::success('Ruta creada', 200, $ruta);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return ApiResponse::error('Ocurrio un error', 404);
+        } catch (Exception $e) {
+            return ApiResponse::error($e->getMessage(), 422);
+
         }
     }
 
@@ -58,8 +58,14 @@ class RutaController extends Controller
      */
     public function show(Ruta $ruta)
     {
+        try {
+            return ApiResponse::success("Datos", 200, $ruta);
+        } catch (Exception $e) {
+            return ApiResponse::error($e->getMessage(), 422);
+        } catch(ModelNotFoundException $E){
+            return ApiResponse::error($E->getMessage(), 422);
 
-        //
+        }
     }
 
     /**
@@ -75,6 +81,13 @@ class RutaController extends Controller
      */
     public function destroy(Ruta $ruta)
     {
-        //
+        try {
+            $ruta->elete();
+
+            return ApiResponse::success("Datos eliminados", 200);
+        } catch (Exception $e) {
+            return ApiResponse::error($e->getMessage(), 400);
+        }
+
     }
 }

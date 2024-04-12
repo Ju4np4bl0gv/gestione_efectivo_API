@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiResponse;
 use App\Models\Guarda;
+use Exception;
 use Illuminate\Http\Request;
 
 class GuardaController extends Controller
@@ -28,9 +29,9 @@ class GuardaController extends Controller
             ]);
 
             $guarda = Guarda::create($request->all());
-           return  ApiResponse::success('registro agregado', 201, $guarda);
-        } catch (\Throwable $th) {
-            return ApiResponse::error('Ocurrio un error', 401);
+            return ApiResponse::success('registro agregado', 201, $guarda);
+        } catch (Exception $e) {
+            return ApiResponse::error($e->getMessage(), 422);
 
         }
 
